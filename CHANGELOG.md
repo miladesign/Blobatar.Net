@@ -1,12 +1,10 @@
 # Changelog
 
-Versions marked `(planned)` have not been published yet.
-
 ## Unreleased
 
 - No changes yet.
 
-## 2.7.0 (planned)
+## 2.7.0 - 2026-10-11
 
 Initial independent .NET port of Alain00/blobatar v2.7.0.
 
