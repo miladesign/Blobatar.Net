@@ -115,6 +115,40 @@ AddChild(avatar);
 Godot requires the .NET edition. Its package installs a script resource during the game build;
 the sample includes a project-local wrapper for Add Node and Inspector integration.
 
+## Configuring
+
+Set `Hue` to choose a color in degrees (0–360), `Tone` to choose its shade (0–1),
+`Backdrop` to select a background, and `Expression` to choose a facial expression:
+
+```xml
+<bl:BlobatarControl Seed="MilaDesign" Width="96" Height="96"
+                    Backdrop="Circle" Hue="210" Tone="0.5" Expression="Happy" />
+```
+
+In Core, the background option is named `Background`. Use `BlobatarOptions.Traits` to
+pin individual geometry traits to positions from 0 to 1; unspecified traits still come
+from the seed:
+
+```csharp
+string svg = BlobatarSvg.Render("MilaDesign", new BlobatarOptions
+{
+    Background = BackdropStyle.Squircle,
+    Hue = 210,
+    Traits = new Dictionary<string, double[]>
+    {
+        ["shape"] = new[] { 0.95 },
+        ["eye.ratio"] = new[] { 0.0 },
+    },
+});
+```
+
+See the [Core README](src/Blobatar.Net.Core/README.md) for more options. The configuration
+sheet below shows the available silhouettes, hues, expressions and backgrounds.
+
+![Blobatar silhouettes, color palettes, facial expressions and background styles](docs/media/sheet.png)
+
+Configuration image from the [original Blobatar project](https://github.com/Alain00/blobatar).
+
 ## Animation and gaze
 
 Controls are static by default. Set `Animate = true` for idle animation, expression morphing and
