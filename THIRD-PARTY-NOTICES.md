@@ -8,6 +8,10 @@ The deterministic generation, geometry, palette, expression, animation and gaze 
 and the upstream-derived golden test data, retain the original author's copyright.
 The .NET port and framework adapters are maintained by MilaDesign.
 
+The repository's README preview image, `docs/media/crowd.png`, is copied unchanged from
+[upstream](https://github.com/Alain00/blobatar/blob/a7fd546ebede49d0a9fa638945b9e534489782a2/docs/media/crowd.png)
+and retains Alain's copyright under the upstream MIT license.
+
 The original upstream license follows unchanged:
 
 MIT License

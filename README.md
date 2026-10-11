@@ -5,9 +5,13 @@ Independent C# port of [Alain00/blobatar](https://github.com/Alain00/blobatar), 
 [MilaDesign](https://github.com/MilaDesign). Generate deterministic geometric avatars from
 strings, with expressions, idle animation and pointer gaze.
 
+![A colorful collection of deterministic Blobatar avatars](docs/media/crowd.png)
+
+Preview image from the [original Blobatar project](https://github.com/Alain00/blobatar).
+
 **Publication status:** source is available at [MilaDesign/Blobatar.Net](https://github.com/MilaDesign/Blobatar.Net).
-NuGet packages have not been published yet. Use project references or locally built packages
-until the first release. This is an independent port, not an official upstream SDK.
+All seven libraries are available on NuGet.org as **2.7.0**. This is an independent port,
+not an official upstream SDK.
 
 ## Vibe coding with AI
 
@@ -17,23 +21,23 @@ the original Blobatar project is credited separately below.
 
 ## Packages
 
-| Package | Purpose | Library targets |
-| --- | --- | --- |
-| [Blobatar.Net.Core](src/Blobatar.Net.Core/README.md) | Generation, SVG and shared animation/gaze logic; no UI dependencies | .NET 6–10 |
-| [Blobatar.Net.Wpf](src/Blobatar.Net.Wpf/README.md) | WPF rendering | .NET 6–10, Windows |
-| [Blobatar.Net.WinForms](src/Blobatar.Net.WinForms/README.md) | Windows Forms / GDI+ rendering | .NET 6–10, Windows |
-| [Blobatar.Net.Avalonia](src/Blobatar.Net.Avalonia/README.md) | Avalonia 11 rendering | .NET 6–10 |
-| [Blobatar.Net.UnoPlatform](src/Blobatar.Net.UnoPlatform/README.md) | WinUI shapes with Uno Platform | .NET 6–10; extra Windows target on .NET 8 |
-| [Blobatar.Net.Maui](src/Blobatar.Net.Maui/README.md) | MAUI vector rendering and native Windows pointer tracking | .NET 8–10; portable and Windows assemblies |
-| [Blobatar.Net.Godot](src/Blobatar.Net.Godot/README.md) | Godot .NET rendering and Inspector integration | .NET 6–10, matching Godot bindings |
+| Package | Purpose | Library targets | NuGet |
+| --- | --- | --- | --- |
+| [Blobatar.Net.Core](src/Blobatar.Net.Core/README.md) | Generation, SVG and shared animation/gaze logic; no UI dependencies | .NET 6–10 | [2.7.0](https://www.nuget.org/packages/Blobatar.Net.Core/2.7.0) |
+| [Blobatar.Net.Wpf](src/Blobatar.Net.Wpf/README.md) | WPF rendering | .NET 6–10, Windows | [2.7.0](https://www.nuget.org/packages/Blobatar.Net.Wpf/2.7.0) |
+| [Blobatar.Net.WinForms](src/Blobatar.Net.WinForms/README.md) | Windows Forms / GDI+ rendering | .NET 6–10, Windows | [2.7.0](https://www.nuget.org/packages/Blobatar.Net.WinForms/2.7.0) |
+| [Blobatar.Net.Avalonia](src/Blobatar.Net.Avalonia/README.md) | Avalonia 11 rendering | .NET 6–10 | [2.7.0](https://www.nuget.org/packages/Blobatar.Net.Avalonia/2.7.0) |
+| [Blobatar.Net.UnoPlatform](src/Blobatar.Net.UnoPlatform/README.md) | WinUI shapes with Uno Platform | .NET 6–10; extra Windows target on .NET 8 | [2.7.0](https://www.nuget.org/packages/Blobatar.Net.UnoPlatform/2.7.0) |
+| [Blobatar.Net.Maui](src/Blobatar.Net.Maui/README.md) | MAUI vector rendering and native Windows pointer tracking | .NET 8–10; portable and Windows assemblies | [2.7.0](https://www.nuget.org/packages/Blobatar.Net.Maui/2.7.0) |
+| [Blobatar.Net.Godot](src/Blobatar.Net.Godot/README.md) | Godot .NET rendering and Inspector integration | .NET 6–10, matching Godot bindings | [2.7.0](https://www.nuget.org/packages/Blobatar.Net.Godot/2.7.0) |
 
-After NuGet publication, install the adapter you need; Core is included as a dependency:
+Install the adapter you need; Core is included as a dependency:
 
 ```shell
 dotnet add package Blobatar.Net.Wpf
 ```
 
-Before publication, reference the adapter project directly.
+For local development, reference the adapter project directly.
 The namespace identifiers below work without published web pages at those URLs.
 
 The [release workflow](.github/workflows/release.yml) builds and tests all seven libraries,
