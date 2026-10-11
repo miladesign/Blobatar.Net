@@ -1,0 +1,38 @@
+# Build and package output
+bin/
+obj/
+artifacts/
+*.nupkg
+*.snupkg
+TestResults/
+*.trx
+coverage/
+coverage.*
+
+# Local IDE state and user settings
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+*.csproj.old
+*.DotSettings.user
+
+# Godot generates these when the sample builds/imports
+.godot/
+samples/Blobatar.Net.Godot.Sample/addons/Blobatar.Net.Godot/
+
+# Local credentials, signing keys and logs
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.snk
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini

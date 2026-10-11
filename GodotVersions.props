@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <BlobatarGodotVersion Condition="$(TargetFramework.StartsWith('net6.0')) Or $(TargetFramework.StartsWith('net7.0'))">4.3.0</BlobatarGodotVersion>
+    <BlobatarGodotVersion Condition="'$(BlobatarGodotVersion)' == ''">4.7.0</BlobatarGodotVersion>
+  </PropertyGroup>
+</Project>

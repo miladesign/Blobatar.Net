@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- MSTest metapackage: framework + adapter + Microsoft.NET.Test.Sdk -->
+		<PackageReference Include="MSTest" Version="3.6.4" Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0'" />
+		<PackageReference Include="MSTest" Version="4.5.1" Condition="'$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net7.0'" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Blobatar.Net.Core\Blobatar.Net.Core.csproj" />
+		<None Update="golden.json" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="golden2.json" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="golden3.json" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-windows;net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+		<UseWindowsForms>true</UseWindowsForms>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Blobatar.Net.WinForms</RootNamespace>
+		<Description>Windows Forms adapter for blobatar — deterministic geometric avatars.</Description>
+		<PackageTags>avatar;blobatar;winforms;windows-forms;control;deterministic</PackageTags>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Blobatar.Net.Core\Blobatar.Net.Core.csproj" />
+	</ItemGroup>
+</Project>

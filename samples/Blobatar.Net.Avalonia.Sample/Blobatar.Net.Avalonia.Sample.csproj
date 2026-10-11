@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Blobatar.Net.Avalonia.Sample</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.*" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.*" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Blobatar.Net.Avalonia\Blobatar.Net.Avalonia.csproj" />
+	</ItemGroup>
+</Project>

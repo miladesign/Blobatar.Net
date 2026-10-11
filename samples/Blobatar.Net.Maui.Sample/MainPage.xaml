@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:bl="https://github.com/MilaDesign/Blobatar.Net/maui"
+             x:Class="Blobatar.Net.Maui.Sample.MainPage"
+             Title="Blobatar.Net · MAUI">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="12" MaximumWidthRequest="900" HorizontalOptions="Center">
+            <Label Text="A face for every name" FontSize="28" FontAttributes="Bold" />
+            <Label Text="Change the seed, explore expressions, and move the mouse across the page or touch the avatar to guide its eyes." />
+            <bl:BlobatarControl x:Name="Preview" WidthRequest="180" HeightRequest="180"
+                             HorizontalOptions="Center" Animate="True" Gaze="Pointer"
+                             Seed="{Binding Source={x:Reference SeedBox}, Path=Text}" />
+            <Label Text="Seed (name, email, or ID)" />
+            <Entry x:Name="SeedBox" Text="MilaDesign" />
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Lock hue" VerticalOptions="Center" />
+                <Switch x:Name="LockHue" Grid.Column="1" Toggled="OnPaletteChanged" />
+            </Grid>
+            <Slider x:Name="HueSlider" Minimum="0" Maximum="360" Value="200" ValueChanged="OnPaletteChanged" />
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Lock tone" VerticalOptions="Center" />
+                <Switch x:Name="LockTone" Grid.Column="1" Toggled="OnPaletteChanged" />
+            </Grid>
+            <Slider x:Name="ToneSlider" Minimum="0" Maximum="0.999" Value="0.5" ValueChanged="OnPaletteChanged" />
+            <Picker x:Name="BackdropPicker" Title="Backdrop" SelectedIndexChanged="OnBackdropChanged" />
+            <Picker x:Name="ExpressionPicker" Title="Expression" SelectedIndexChanged="OnExpressionChanged" />
+            <Picker x:Name="GazePicker" Title="Gaze" SelectedIndexChanged="OnGazeChanged" />
+            <Label Text="Gaze travel" />
+            <Slider Minimum="0" Maximum="4" Value="{Binding Source={x:Reference Preview}, Path=GazeTravel, Mode=TwoWay}" />
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Animate" VerticalOptions="Center" />
+                <Switch Grid.Column="1" IsToggled="{Binding Source={x:Reference Preview}, Path=Animate, Mode=TwoWay}" />
+            </Grid>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Normalize seed" VerticalOptions="Center" />
+                <Switch Grid.Column="1" IsToggled="{Binding Source={x:Reference Preview}, Path=Normalize, Mode=TwoWay}" />
+            </Grid>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="Enforce contrast" VerticalOptions="Center" />
+                <Switch Grid.Column="1" IsToggled="{Binding Source={x:Reference Preview}, Path=EnforceContrast, Mode=TwoWay}" />
+            </Grid>
+            <Grid ColumnDefinitions="*,Auto" Margin="0,16,0,0">
+                <Label Text="40-user gallery" FontSize="22" FontAttributes="Bold" VerticalOptions="Center" />
+                <Switch x:Name="AnimateGallery" Grid.Column="1" Toggled="OnGalleryAnimationChanged" />
+            </Grid>
+            <FlexLayout x:Name="Gallery" Wrap="Wrap" JustifyContent="Start" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <GodotDisabledSourceGenerators>ScriptPathAttribute</GodotDisabledSourceGenerators>
+    <Description>Godot .NET BlobatarControl with expressions, idle animation and viewport-wide mouse gaze.</Description>
+    <PackageTags>avatar;blobatar;godot;2d;control</PackageTags>
+  </PropertyGroup>
+  <Import Project="../../GodotVersions.props" />
+  <ItemGroup>
+    <Compile Remove="buildTransitive/BlobatarScripts.cs" />
+    <None Include="buildTransitive/BlobatarScripts.cs" Pack="true" PackagePath="buildTransitive/" />
+    <None Include="BlobatarControl.cs" Pack="true" PackagePath="content/" />
+    <None Include="buildTransitive/Blobatar.Net.Godot.targets" Pack="true" PackagePath="buildTransitive/" />
+    <PackageReference Include="GodotSharp" Version="$(BlobatarGodotVersion)" />
+    <PackageReference Include="Godot.SourceGenerators" Version="$(BlobatarGodotVersion)" PrivateAssets="all" />
+    <ProjectReference Include="../Blobatar.Net.Core/Blobatar.Net.Core.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <BlobatarMauiDotNetVersion Condition="'$(BlobatarMauiDotNetVersion)' == ''">10</BlobatarMauiDotNetVersion>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">net$(BlobatarMauiDotNetVersion).0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('osx'))">net$(BlobatarMauiDotNetVersion).0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('linux'))">net$(BlobatarMauiDotNetVersion).0-android</TargetFrameworks>
+    <TargetFrameworks Condition="'$(BlobatarMauiSampleTargetFrameworks)' != ''">$(BlobatarMauiSampleTargetFrameworks)</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Blobatar.Net.Maui.Sample</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationTitle>Blobatar.Net sample</ApplicationTitle>
+    <ApplicationId>com.blobatar.net.maui.sample</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <WindowsPackageType>None</WindowsPackageType>
+    <SelfContained Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">false</SelfContained>
+    <PublishReadyToRun Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">false</PublishReadyToRun>
+    <RuntimeIdentifier Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' And '$(RuntimeIdentifier)' == ''">$(NETCoreSdkRuntimeIdentifier)</RuntimeIdentifier>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+  <Import Project="../../MauiVersions.props" />
+  <PropertyGroup><MauiVersion>$(BlobatarMauiVersion)</MauiVersion></PropertyGroup>
+  <PropertyGroup Condition="'$(BlobatarPointerSmokeTest)' == 'true'">
+    <DefineConstants>$(DefineConstants);BLOBATAR_POINTER_SMOKE_TEST</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(BlobatarPointerSmokeTest)' == 'true'">
+    <Compile Include="../../tests/Blobatar.Net.Maui.Tests/WindowsPointerSmokeTest.cs" Link="WindowsPointerSmokeTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <MauiIcon Include="Resources/AppIcon/appicon.svg" ForegroundFile="Resources/AppIcon/appiconfg.svg" Color="#243B53" />
+    <MauiSplashScreen Include="Resources/Splash/splash.svg" Color="#243B53" BaseSize="128,128" />
+    <MauiFont Include="Resources/Fonts/*.ttf" />
+    <MauiAsset Include="Resources/Fonts/LICENSE.txt" LogicalName="licenses/OpenSans-LICENSE.txt" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(BlobatarMauiVersion)" />
+    <ProjectReference Include="../../src/Blobatar.Net.Maui/Blobatar.Net.Maui.csproj" />
+  </ItemGroup>
+</Project>

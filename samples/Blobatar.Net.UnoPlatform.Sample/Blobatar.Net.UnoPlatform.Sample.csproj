@@ -1,0 +1,42 @@
+<Project>
+  <Import Project="../../UnoVersions.props" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0'" />
+  <!-- Resolve the bootstrap SDK normally, then import newer SDKs by package path to avoid MSB4240. -->
+  <Import Project="Sdk.props" Sdk="Uno.Sdk" Version="5.6.54" Condition="'$(TargetFramework)' == '' Or '$(TargetFramework)' == 'net8.0-desktop' Or (('$(TargetFramework)' == 'net9.0-desktop' Or '$(TargetFramework)' == 'net10.0-desktop') And !Exists('$(BlobatarUnoSdkDirectory)/Sdk.props'))" />
+  <Import Project="$(BlobatarUnoSdkDirectory)/Sdk.props" Condition="('$(TargetFramework)' == 'net9.0-desktop' Or '$(TargetFramework)' == 'net10.0-desktop') And Exists('$(BlobatarUnoSdkDirectory)/Sdk.props')" />
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0-desktop;net9.0-desktop;net10.0-desktop</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <UnoSingleProject>true</UnoSingleProject>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Blobatar.Net.UnoPlatform.Sample</RootNamespace>
+    <UnoVersion Condition="'$(TargetFramework)' == 'net9.0-desktop' Or '$(TargetFramework)' == 'net10.0-desktop'">$(BlobatarUnoVersion)</UnoVersion>
+    <UnoDisableHotDesign Condition="'$(TargetFramework)' == 'net9.0-desktop' Or '$(TargetFramework)' == 'net10.0-desktop'">true</UnoDisableHotDesign>
+    <UnoDisableMCPSupport Condition="'$(TargetFramework)' == 'net9.0-desktop' Or '$(TargetFramework)' == 'net10.0-desktop'">true</UnoDisableMCPSupport>
+
+    <ApplicationTitle>Blobatar.Net sample</ApplicationTitle>
+    <ApplicationId>com.blobatar.net.uno.sample</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0'">
+    <UnoRuntimeIdentifier>Skia</UnoRuntimeIdentifier>
+    <IsUnoHead>true</IsUnoHead>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0'">
+    <PackageReference Include="Uno.WinUI.Runtime.Skia.Gtk" Version="$(BlobatarUnoVersion)" />
+    <Page Include="App.xaml;MainPage.xaml" />
+    <Compile Remove="Platforms/Desktop/Program.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net7.0'">
+    <Compile Remove="Platforms/LegacyDesktop/Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageDownload Include="Uno.Sdk" Version="[6.2.39];[6.6.42]" />
+    <ProjectReference Include="..\..\src\Blobatar.Net.UnoPlatform\Blobatar.Net.UnoPlatform.csproj" />
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0'" />
+  <Import Project="Sdk.targets" Sdk="Uno.Sdk" Version="5.6.54" Condition="'$(TargetFramework)' == '' Or '$(TargetFramework)' == 'net8.0-desktop' Or (('$(TargetFramework)' == 'net9.0-desktop' Or '$(TargetFramework)' == 'net10.0-desktop') And !Exists('$(BlobatarUnoSdkDirectory)/Sdk.targets'))" />
+  <Import Project="$(BlobatarUnoSdkDirectory)/Sdk.targets" Condition="('$(TargetFramework)' == 'net9.0-desktop' Or '$(TargetFramework)' == 'net10.0-desktop') And Exists('$(BlobatarUnoSdkDirectory)/Sdk.targets')" />
+</Project>

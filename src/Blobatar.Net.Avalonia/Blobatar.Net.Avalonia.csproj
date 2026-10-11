@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Blobatar.Net.Avalonia</RootNamespace>
+		<Description>Avalonia adapter for blobatar — deterministic geometric avatars.</Description>
+		<PackageTags>avatar;blobatar;avalonia;avaloniaui;xaml;control;deterministic</PackageTags>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Blobatar.Net.Core\Blobatar.Net.Core.csproj" />
+	</ItemGroup>
+</Project>

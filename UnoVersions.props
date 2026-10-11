@@ -1,0 +1,17 @@
+<Project>
+  <!-- Keep the library and sample on the same Uno release for each framework. -->
+  <PropertyGroup>
+    <BlobatarUnoVersion Condition="'$(TargetFramework)' == 'net6.0'">4.10.39</BlobatarUnoVersion>
+    <BlobatarUnoVersion Condition="'$(TargetFramework)' == 'net7.0'">5.2.190</BlobatarUnoVersion>
+    <BlobatarUnoVersion Condition="'$(TargetFramework)' == 'net9.0' Or '$(TargetFramework)' == 'net9.0-desktop'">6.2.58</BlobatarUnoVersion>
+    <BlobatarUnoVersion Condition="'$(TargetFramework)' == 'net10.0' Or '$(TargetFramework)' == 'net10.0-desktop'">6.6.184</BlobatarUnoVersion>
+    <BlobatarUnoVersion Condition="'$(BlobatarUnoVersion)' == ''">5.6.99</BlobatarUnoVersion>
+    <BlobatarUnoSdkVersion Condition="'$(TargetFramework)' == 'net9.0-desktop'">6.2.39</BlobatarUnoSdkVersion>
+    <BlobatarUnoSdkVersion Condition="'$(TargetFramework)' == 'net10.0-desktop'">6.6.42</BlobatarUnoSdkVersion>
+    <BlobatarUnoSdkVersion Condition="'$(BlobatarUnoSdkVersion)' == ''">5.6.54</BlobatarUnoSdkVersion>
+    <BlobatarNuGetPackageRoot Condition="'$(NuGetPackageRoot)' != ''">$(NuGetPackageRoot)</BlobatarNuGetPackageRoot>
+    <BlobatarNuGetPackageRoot Condition="'$(BlobatarNuGetPackageRoot)' == '' And '$(NUGET_PACKAGES)' != ''">$(NUGET_PACKAGES)</BlobatarNuGetPackageRoot>
+    <BlobatarNuGetPackageRoot Condition="'$(BlobatarNuGetPackageRoot)' == ''">$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))/.nuget/packages</BlobatarNuGetPackageRoot>
+    <BlobatarUnoSdkDirectory>$([MSBuild]::NormalizePath('$(BlobatarNuGetPackageRoot)', 'uno.sdk', '$(BlobatarUnoSdkVersion)', 'Sdk'))</BlobatarUnoSdkDirectory>
+  </PropertyGroup>
+</Project>

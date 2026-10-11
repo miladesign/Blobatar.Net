@@ -1,0 +1,124 @@
+name: Release libraries
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing version tag (for example v2.7.0)
+        required: true
+        type: string
+      publish_nuget:
+        description: Publish all seven packages to NuGet.org
+        default: true
+        type: boolean
+      validate_only:
+        description: Build and test the selected branch without publishing or creating a release
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      id-token: write
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+      PUBLISH_NUGET: ${{ !inputs.validate_only && (github.event_name == 'push' || inputs.publish_nuget) }}
+      VALIDATE_ONLY: ${{ inputs.validate_only || false }}
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.validate_only && github.ref || format('refs/tags/{0}', inputs.tag || github.ref_name) }}
+          fetch-depth: 0
+
+      - name: Validate tag and authentication configuration
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$') {
+            throw 'Use a version tag such as v2.7.0 or v2.7.1-beta.1.'
+          }
+          if ($env:PUBLISH_NUGET -eq 'true' -and [string]::IsNullOrWhiteSpace($env:NUGET_USER)) {
+            throw 'Configure the NUGET_USER repository variable and NuGet trusted publishing policy.'
+          }
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Prepare Godot binding packages and NuGet sources
+        run: ./scripts/Initialize-ReleaseDependencies.ps1 -Destination "$env:RUNNER_TEMP/blobatar-dependencies"
+
+      - name: Build, test and pack all libraries
+        run: |
+          ./scripts/Build-Release.ps1 -Tag $env:RELEASE_TAG -NuGetConfig "$env:RUNNER_TEMP/blobatar-dependencies/NuGet.Config"
+
+      - name: Preserve packages and release notes
+        uses: actions/upload-artifact@v4
+        with:
+          name: Blobatar.Net-${{ env.RELEASE_TAG }}
+          path: artifacts/release/${{ env.RELEASE_TAG }}/
+          if-no-files-found: error
+
+      - name: Authenticate with NuGet trusted publishing
+        if: env.PUBLISH_NUGET == 'true'
+        uses: NuGet/login@v1
+        id: nuget
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Publish NuGet packages
+        if: env.PUBLISH_NUGET == 'true'
+        env:
+          NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
+        run: |
+          foreach ($package in Get-ChildItem "artifacts/release/$env:RELEASE_TAG/*.nupkg" | Sort-Object Name) {
+            dotnet nuget push $package.FullName --source https://api.nuget.org/v3/index.json --api-key $env:NUGET_API_KEY --skip-duplicate
+            if ($LASTEXITCODE -ne 0) { throw "NuGet upload failed: $($package.Name)" }
+          }
+
+      - name: Create combined GitHub release
+        if: env.VALIDATE_ONLY != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $directory = "artifacts/release/$env:RELEASE_TAG"
+          $notes = "$directory/release-notes.md"
+          if ($env:PUBLISH_NUGET -ne 'true') {
+            Add-Content $notes "`nNuGet publishing was disabled for this run. The package links above may not be available; download the attached packages instead."
+          }
+          $packages = @(Get-ChildItem "$directory/*.nupkg" | ForEach-Object FullName)
+          gh release view $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $env:RELEASE_TAG @packages --clobber --repo $env:GITHUB_REPOSITORY
+            if ($LASTEXITCODE -ne 0) { throw 'Release asset upload failed.' }
+            gh release edit $env:RELEASE_TAG --notes-file $notes --repo $env:GITHUB_REPOSITORY
+          } else {
+            $arguments = @('release', 'create', $env:RELEASE_TAG) + $packages + @('--verify-tag', '--title', "Blobatar.Net $env:RELEASE_TAG", '--notes-file', $notes, '--repo', $env:GITHUB_REPOSITORY)
+            if ($env:RELEASE_TAG.Contains('-')) { $arguments += @('--prerelease', '--latest=false') }
+            gh @arguments
+          }
+          if ($LASTEXITCODE -ne 0) { throw 'GitHub release creation/update failed.' }

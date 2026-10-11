@@ -1,0 +1,7 @@
+<Project>
+  <!-- Godot's editor maintains the literal net8.0 entry in the csproj. Keep the
+       optional CLI framework selection here so editor upgrades preserve it. -->
+  <PropertyGroup>
+    <TargetFramework>net$(BlobatarGodotDotNetVersion).0</TargetFramework>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Blobatar.Net.Core</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<Description>Deterministic geometric blobatars from any string. No dependencies.</Description>
+		<PackageTags>avatar;blobatar;deterministic;geometric;svg;vector</PackageTags>
+	</PropertyGroup>
+</Project>

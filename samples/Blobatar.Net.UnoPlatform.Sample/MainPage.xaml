@@ -1,0 +1,76 @@
+<Page x:Class="Blobatar.Net.UnoPlatform.Sample.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:bl="using:Blobatar.Net.UnoPlatform">
+    <Grid Padding="16" ColumnSpacing="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Controls  -->
+        <ScrollViewer Grid.Column="0">
+            <StackPanel Spacing="6">
+                <bl:BlobatarControl x:Name="Preview"
+                                    Width="180"
+                                    Height="180"
+                                    Margin="0,0,0,12"
+                                    Animate="True"
+                                    Gaze="Pointer"
+                                    Seed="{Binding Text, ElementName=SeedBox}" />
+
+                <TextBlock Text="Seed (name, email, id)" />
+                <TextBox x:Name="SeedBox" Text="MilaDesign" />
+
+                <CheckBox x:Name="LockHue" Content="Lock hue" />
+                <Slider x:Name="HueSlider"
+                        Maximum="360"
+                        Minimum="0"
+                        Value="200" />
+
+                <CheckBox x:Name="LockTone" Content="Lock tone" />
+                <Slider x:Name="ToneSlider"
+                        Maximum="0.999"
+                        Minimum="0"
+                        StepFrequency="0.01"
+                        Value="0.5" />
+
+                <TextBlock Text="Backdrop" />
+                <ComboBox x:Name="BackdropBox"
+                          HorizontalAlignment="Stretch"
+                          SelectedItem="{Binding Backdrop, ElementName=Preview, Mode=TwoWay}" />
+
+                <TextBlock Margin="0,8,0,0" Text="Expression" />
+                <ComboBox x:Name="ExpressionBox"
+                          HorizontalAlignment="Stretch"
+                          SelectedItem="{Binding Expression, ElementName=Preview, Mode=TwoWay}" />
+
+                <TextBlock Margin="0,8,0,0" Text="Gaze (needs Animate)" />
+                <ComboBox x:Name="GazeBox"
+                          HorizontalAlignment="Stretch"
+                          SelectedItem="{Binding Gaze, ElementName=Preview, Mode=TwoWay}" />
+                <TextBlock Text="Gaze travel" />
+                <Slider Maximum="4"
+                        Minimum="0"
+                        StepFrequency="0.1"
+                        Value="{Binding GazeTravel, ElementName=Preview, Mode=TwoWay}" />
+
+                <CheckBox Content="Animate" IsChecked="{Binding Animate, ElementName=Preview, Mode=TwoWay}" />
+                <CheckBox Content="Normalize seed" IsChecked="{Binding Normalize, ElementName=Preview, Mode=TwoWay}" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--  Gallery (filled in code: a data template cannot reach this page's checkbox)  -->
+        <Grid Grid.Column="1" RowSpacing="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <CheckBox x:Name="AnimateGallery" Content="Animate gallery" />
+            <GridView x:Name="Gallery"
+                      Grid.Row="1"
+                      IsItemClickEnabled="False"
+                      SelectionMode="None" />
+        </Grid>
+    </Grid>
+</Page>

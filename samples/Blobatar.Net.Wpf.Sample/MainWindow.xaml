@@ -1,0 +1,71 @@
+<Window x:Class="Blobatar.Net.Wpf.Sample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:bl="https://github.com/MilaDesign/Blobatar.Net/wpf"
+        Title="Blobatar.Net sample (WPF)" Width="760" Height="560" MinWidth="560"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Controls -->
+        <StackPanel Grid.Column="0" Margin="0,0,16,0">
+            <bl:BlobatarControl x:Name="Preview" Width="180" Height="180" Margin="0,0,0,12"
+                                Animate="True" Gaze="Pointer"
+                                Seed="{Binding Text, ElementName=SeedBox}"/>
+
+            <TextBlock Text="Seed (name, email, id)"/>
+            <TextBox x:Name="SeedBox" Text="MilaDesign" Margin="0,4,0,12"/>
+
+            <CheckBox x:Name="LockHue" Content="Lock hue" Checked="OnLockChanged" Unchecked="OnLockChanged"/>
+            <Slider x:Name="HueSlider" Minimum="0" Maximum="360" Value="200" Margin="0,4,0,12"
+                    ValueChanged="OnLockChanged"/>
+
+            <CheckBox x:Name="LockTone" Content="Lock tone" Checked="OnLockChanged" Unchecked="OnLockChanged"/>
+            <Slider x:Name="ToneSlider" Minimum="0" Maximum="0.999" Value="0.5" Margin="0,4,0,12"
+                    ValueChanged="OnLockChanged"/>
+
+            <TextBlock Text="Backdrop"/>
+            <ComboBox x:Name="BackdropBox" Margin="0,4,0,12"
+                      SelectedItem="{Binding Backdrop, ElementName=Preview, Mode=TwoWay}"/>
+
+            <TextBlock Text="Expression"/>
+            <ComboBox x:Name="ExpressionBox" Margin="0,4,0,12"
+                      SelectedItem="{Binding Expression, ElementName=Preview, Mode=TwoWay}"/>
+
+            <TextBlock Text="Gaze (needs Animate)"/>
+            <ComboBox x:Name="GazeBox" Margin="0,4,0,6"
+                      SelectedItem="{Binding Gaze, ElementName=Preview, Mode=TwoWay}"/>
+            <TextBlock Text="Gaze travel"/>
+            <Slider Minimum="0" Maximum="4" Value="{Binding GazeTravel, ElementName=Preview, Mode=TwoWay}" Margin="0,4,0,12"/>
+
+            <CheckBox Content="Animate" Margin="0,0,0,6"
+                      IsChecked="{Binding Animate, ElementName=Preview, Mode=TwoWay}"/>
+            <CheckBox Content="Normalize seed" IsChecked="{Binding Normalize, ElementName=Preview, Mode=TwoWay}"/>
+        </StackPanel>
+
+        <!-- Gallery -->
+        <DockPanel Grid.Column="1">
+        <CheckBox x:Name="AnimateGallery" DockPanel.Dock="Top" Content="Animate gallery" Margin="6,0,0,6"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="Gallery" Tag="{Binding IsChecked, ElementName=AnimateGallery}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="6" Width="72">
+                            <BlobatarControl Seed="{Binding}" Width="64" Height="64" Gaze="Pointer"
+                                                Animate="{Binding Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+                            <TextBlock Text="{Binding}" FontSize="11" TextAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</Window>

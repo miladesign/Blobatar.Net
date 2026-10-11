@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <BlobatarMauiVersion Condition="$(TargetFramework.StartsWith('net8.0'))">8.0.100</BlobatarMauiVersion>
+    <BlobatarMauiVersion Condition="$(TargetFramework.StartsWith('net9.0'))">9.0.120</BlobatarMauiVersion>
+    <BlobatarMauiVersion Condition="'$(BlobatarMauiVersion)' == ''">10.0.20</BlobatarMauiVersion>
+  </PropertyGroup>
+</Project>

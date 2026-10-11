@@ -1,0 +1,61 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:bl="https://github.com/MilaDesign/Blobatar.Net/avalonia"
+        x:Class="Blobatar.Net.Avalonia.Sample.MainWindow"
+        Title="Blobatar.Net sample (Avalonia)" Width="760" Height="640" MinWidth="560"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="16" ColumnDefinitions="240,*">
+
+        <!-- Controls -->
+        <StackPanel Grid.Column="0" Margin="0,0,16,0" Spacing="4">
+            <bl:BlobatarControl x:Name="Preview" Width="180" Height="180" Margin="0,0,0,12"
+                                Animate="True" Gaze="Pointer"
+                                Seed="{Binding #SeedBox.Text}"/>
+
+            <TextBlock Text="Seed (name, email, id)"/>
+            <TextBox x:Name="SeedBox" Text="MilaDesign" Margin="0,0,0,8"/>
+
+            <CheckBox x:Name="LockHue" Content="Lock hue"/>
+            <Slider x:Name="HueSlider" Minimum="0" Maximum="360" Value="200"/>
+
+            <CheckBox x:Name="LockTone" Content="Lock tone"/>
+            <Slider x:Name="ToneSlider" Minimum="0" Maximum="0.999" Value="0.5"/>
+
+            <TextBlock Text="Backdrop"/>
+            <ComboBox x:Name="BackdropBox" SelectedItem="{Binding #Preview.Backdrop, Mode=TwoWay}"/>
+
+            <TextBlock Text="Expression" Margin="0,8,0,0"/>
+            <ComboBox x:Name="ExpressionBox" SelectedItem="{Binding #Preview.Expression, Mode=TwoWay}"/>
+
+            <TextBlock Text="Gaze (needs Animate)" Margin="0,8,0,0"/>
+            <ComboBox x:Name="GazeBox" SelectedItem="{Binding #Preview.Gaze, Mode=TwoWay}"/>
+            <TextBlock Text="Gaze travel"/>
+            <Slider Minimum="0" Maximum="4" Value="{Binding #Preview.GazeTravel, Mode=TwoWay}"/>
+
+            <CheckBox Content="Animate" IsChecked="{Binding #Preview.Animate, Mode=TwoWay}"/>
+            <CheckBox Content="Normalize seed" IsChecked="{Binding #Preview.Normalize, Mode=TwoWay}"/>
+        </StackPanel>
+
+        <!-- Gallery -->
+        <DockPanel Grid.Column="1">
+            <CheckBox x:Name="AnimateGallery" DockPanel.Dock="Top" Content="Animate gallery" Margin="6,0,0,6"/>
+            <ScrollViewer>
+                <ItemsControl x:Name="Gallery" Tag="{Binding #AnimateGallery.IsChecked}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="6" Width="72">
+                                <BlobatarControl Seed="{Binding}" Width="64" Height="64" Gaze="Pointer"
+                                                    Animate="{Binding $parent[ItemsControl].Tag}"/>
+                                <TextBlock Text="{Binding}" FontSize="11" TextAlignment="Center"
+                                           TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</Window>

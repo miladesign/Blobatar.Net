@@ -1,0 +1,16 @@
+﻿<Project Sdk="Godot.NET.Sdk/4.7.0">
+  <PropertyGroup>
+    <BlobatarGodotDotNetVersion Condition="'$(BlobatarGodotDotNetVersion)' == ''">8</BlobatarGodotDotNetVersion>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+  <Import Project="GodotSampleFramework.props" />
+  <PropertyGroup>
+    <BlobatarGodotScriptSource>$(MSBuildProjectDirectory)/../../src/Blobatar.Net.Godot/BlobatarControl.cs</BlobatarGodotScriptSource>
+  </PropertyGroup>
+  <Import Project="../../src/Blobatar.Net.Godot/buildTransitive/Blobatar.Net.Godot.targets" />
+  <ItemGroup><ProjectReference Include="../../src/Blobatar.Net.Godot/Blobatar.Net.Godot.csproj" /></ItemGroup>
+</Project>

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../UnoVersions.props" />
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(TargetFrameworks);net8.0-windows10.0.19041</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Blobatar.Net.UnoPlatform</RootNamespace>
+    <Description>Uno Platform adapter for blobatar — deterministic geometric avatars.</Description>
+    <PackageTags>avatar;blobatar;uno-platform;winui;xaml;control;deterministic</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows10.0.19041' And '$(MSBuildRuntimeType)' == 'Core'">
+    <!-- This code-only library has no PRI resources to generate with Visual Studio's packaging tasks. -->
+    <EnableCoreMrtTooling>false</EnableCoreMrtTooling>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Uno.WinUI" Version="$(BlobatarUnoVersion)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows10.0.19041'">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250228001" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blobatar.Net.Core\Blobatar.Net.Core.csproj" />
+  </ItemGroup>
+</Project>

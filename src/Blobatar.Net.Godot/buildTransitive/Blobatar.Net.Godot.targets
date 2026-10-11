@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <BlobatarGodotScriptSource Condition="'$(BlobatarGodotScriptSource)' == ''">$(MSBuildThisFileDirectory)../content/BlobatarControl.cs</BlobatarGodotScriptSource>
+    <BlobatarGodotScriptPath>$(MSBuildProjectDirectory)/addons/Blobatar.Net.Godot/BlobatarControl.cs</BlobatarGodotScriptPath>
+  </PropertyGroup>
+  <!-- The script belongs to the package assembly, not the consuming assembly. -->
+  <ItemGroup>
+    <Compile Remove="$(BlobatarGodotScriptPath)" />
+    <Compile Include="$(MSBuildThisFileDirectory)BlobatarScripts.cs" Link="BlobatarScripts.g.cs" />
+  </ItemGroup>
+  <Target Name="InstallBlobatarGodotScript" BeforeTargets="BeforeBuild" Condition="Exists('$(MSBuildProjectDirectory)/project.godot')">
+    <Copy SourceFiles="$(BlobatarGodotScriptSource)" DestinationFiles="$(BlobatarGodotScriptPath)" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <Compile Remove="$(BlobatarGodotScriptPath)" />
+    </ItemGroup>
+  </Target>
+</Project>
